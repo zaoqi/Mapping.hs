@@ -25,7 +25,7 @@ module Mapping(
 
 type List a = [a]
 
-data Mapping k v = MappingNil | MappingNode (Mapping k v) k v (Mapping k v)
+data Mapping k v = MappingNil | MappingNode (Mapping k v) k v (Mapping k v) deriving Show
 
 mappingRef :: Ord k => Mapping k v -> k -> v -> v
 mappingRef (MappingNode l mk v r) k d =
