@@ -3,7 +3,7 @@
 
 name:                Mapping
 version:             0.1.0.0
--- synopsis:            
+synopsis:            Mapping
 -- description:         
 homepage:            https://github.com/zaoqi/Mapping.hs
 license:             AGPL-3
