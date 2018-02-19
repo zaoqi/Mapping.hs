@@ -13,7 +13,7 @@
 --    You should have received a copy of the GNU Affero General Public License
 --    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module Mapping(
-    Mapping(),
+    Mapping(MappingNil),
     mappingRef,
     mappingSet,
     mappingUnion,
@@ -77,8 +77,7 @@ mappingToList (MappingNode l k v r) = (mappingToList l) ++ ((k, v) : mappingToLi
 mappingToList MappingNil = []
 
 listToMapping :: Ord k => List (k, v) -> Mapping k v
-listToMapping ((k, v) : xs) = mappingSet (listToMapping xs) k v
-listToMapping [] = MappingNil
+listToMapping xs = foldl (\h (k, v) -> mappingSet h k v) MappingNil xs
 
 instance (Eq k, Eq v) => Eq (Mapping k v) where
     x == y = mappingToList x == mappingToList y
