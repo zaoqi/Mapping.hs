@@ -18,6 +18,7 @@ module Mapping(
     mappingSet,
     mappingUnion,
     mappingMayRemove,
+    mappingRemove,
     mappingHas,
     mappingToList,
     listToMapping,
@@ -60,9 +61,17 @@ mappingMayRemove :: Ord k => Mapping k v -> k -> Mapping k v
 mappingMayRemove (MappingNode l mk v r) k =
     case compare k mk of
         LT -> MappingNode (mappingMayRemove l k) mk v r
-        EQ -> MappingNil
+        EQ -> mappingUnion (\k v1 v2 -> error "!") l r
         GT -> MappingNode l mk v (mappingMayRemove r k)
 mappingMayRemove MappingNil _ = MappingNil
+
+mappingRemove :: Ord k => Mapping k v -> k -> Maybe (Mapping k v)
+mappingRemove (MappingNode l mk v r) k =
+    case compare k mk of
+        LT -> fmap (\l -> MappingNode l mk v r) (mappingRemove l k)
+        EQ -> Just (mappingUnion (\k v1 v2 -> error "!") l r)
+        GT -> fmap (\r -> MappingNode l mk v r) (mappingRemove r k)
+mappingRemove MappingNil _ = Nothing
 
 mappingHas :: Ord k => Mapping k v -> k -> Bool
 mappingHas (MappingNode l mk v r) k =
