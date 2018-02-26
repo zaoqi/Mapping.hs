@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                Mapping
-version:             0.1.0.3
+version:             1.0.0.0
 synopsis:            Mapping
 -- description:         
 homepage:            https://github.com/zaoqi/Mapping.hs

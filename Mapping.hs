@@ -22,6 +22,7 @@ module Mapping(
     mappingHas,
     mappingToList,
     listToMapping,
+    mappingAppendList,
     ) where
 
 type List a = [a]
@@ -86,7 +87,10 @@ mappingToList (MappingNode l k v r) = (mappingToList l) ++ ((k, v) : mappingToLi
 mappingToList MappingNil = []
 
 listToMapping :: Ord k => List (k, v) -> Mapping k v
-listToMapping xs = foldl (\h (k, v) -> mappingSet h k v) MappingNil xs
+listToMapping xs = mappingAppendList MappingNil xs
+
+mappingAppendList :: Ord k => Mapping k v -> List (k, v) -> Mapping k v
+mappingAppendList m xs = foldl (\h (k, v) -> mappingSet h k v) m xs
 
 instance (Eq k, Eq v) => Eq (Mapping k v) where
     x == y = mappingToList x == mappingToList y
